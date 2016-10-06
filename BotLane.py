@@ -7,32 +7,34 @@ from discord.ext import commands
 from os import listdir
 from os.path import isfile,join
 
-
+global bot
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("/"),description="@BotLane help")
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='BotLane.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
-data = ""
-with open('champs.json') as f:
-    for line in f:
-        data+=line
-data = json.loads(data)
-skins=""
-with open('skins.json') as f:
-    for line in f:
-        skins+=line
-skins = json.loads(skins)
+data=skins=""
+def load_json():
+    global data,skins
+    data=skins=""
+    with open('champs.json') as f:
+        for line in f:
+            data+=line
+    data = json.loads(data)
+    with open('skins.json') as f:
+        for line in f:
+            skins+=line
+    skins = json.loads(skins)
 @bot.event
 async def on_ready():
     print("Logged in as")
     print(bot.user.name)
     print("-----")
     await bot.change_presence(game=discord.Game(name='@BotLane help',url='',type=2))
-
 @bot.event
 async def on_message(message):
+    """
     if message.content.startswith("mid") or message.content.startswith("Mid"):
         avail = ["top","adc","supp","jng"]
         def check_call(m):
@@ -52,11 +54,13 @@ async def on_message(message):
             elif call.content.lower() in ["jng","jungle"]:
                 avail.remove("jng")
         await bot.send_message(message.channel,avail[0])
+        """
     await bot.process_commands(message)
-
-@bot.command()
-async def fire_shots():
-    await bot.say(discord.User(id="233159074705833984").mention+" \latex")
+@bot.command(pass_context=True,description="Refresh JSON")
+async def refresh(ctx):
+    if str(ctx.message.author)[:-5] == "sm0xe":
+        load_json()
+        await bot.say("JSON refreshed")
 @bot.command(pass_context=True,description="Get champion info")
 async def info(ctx,champ: str,char: str=None):
     if char.lower() == "capitalism": char="$"
@@ -141,6 +145,7 @@ async def stats(ctx,champ: str):
     m+="Move. Speed: "+str(champ_stats['movespeed'])+"```"
     print("{}: {}'s stats".format(member,champ.title()))
     await bot.say(m)
+
 @bot.command(pass_context=True,description="Get champion icon")
 async def icon(ctx,champ: str,n: int=0):
     member = str(ctx.message.author)[:-5]
@@ -162,22 +167,13 @@ async def splash(ctx,champ: str,n: str="0"):
             print("{}: {}'s splash #{}".format(member,champ.title(),n))
             await bot.send_file(ctx.message.channel,path)
     else:
-        path = get_image_path_alias(champ,n)
         if not n.lower() in skins[c_format(champ)]:
-            await bot.say("{} does not have a splash {}".format(champ.title(),n.title()))
+            await bot.say("{} does not have a splash \"{}\"".format(champ.title(),n.title()))
         else:
+            path = get_image_path_alias(champ,n)
             print("{}: {}'s splash {}".format(member,champ.title(),n.title()))
             await bot.send_file(ctx.message.channel,path)
-"""
-@bot.command(pass_context=True,description="Get champion splash image by name")
-async def splash(ctx,champ: str,n: str="vanilla"):
-    path = get_image_path_alias(champ,n)
-    if not str in skins[c_format(champ)]:
-        await bot.say("{} does not have a splash {}".format(champ.title(),n))
-    else:
-        print("{}: {}'s splash {}".format(member,champ.title(),n))
-        await bot.send_file(ctx.message.channel,path)
-"""
+
 @bot.command(pass_context=True,description="Get champion roles")
 async def role(ctx,champ: str):
     member = str(ctx.message.author)[:-5]
@@ -233,5 +229,6 @@ def get_image_path(champ, t, n):
                 return join(champ_dir,f)
     return None
 if __name__ == "__main__":
+    load_json()
     bot.run('MjMzMzI5NzI3ODM2NzgyNTkz.Ctb5PA.XROr0CH-e31vX1PxXKS8gNOphXM')
     bot.close()
