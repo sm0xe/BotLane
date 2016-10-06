@@ -152,14 +152,22 @@ async def icon(ctx,champ: str,n: int=0):
         await bot.send_file(ctx.message.channel,path)
 
 @bot.command(pass_context=True,description="Get champion splash image by number")
-async def splash(ctx,champ: str,n: int=0):
+async def splash(ctx,champ: str,n: str="0"):
     member = str(ctx.message.author)[:-5]
-    path = get_image_path(champ,"splash",n)
-    if path==None:
-        await bot.say("{} does not have a splash #{}".format(champ.title(),n))
+    if n.isdigit():
+        path = get_image_path(champ,"splash",n)
+        if path==None:
+            await bot.say("{} does not have a splash #{}".format(champ.title(),n))
+        else:
+            print("{}: {}'s splash #{}".format(member,champ.title(),n))
+            await bot.send_file(ctx.message.channel,path)
     else:
-        print("{}: {}'s splash #{}".format(member,champ.title(),n))
-        await bot.send_file(ctx.message.channel,path)
+        path = get_image_path_alias(champ,n)
+        if not n.lower() in skins[c_format(champ)]:
+            await bot.say("{} does not have a splash {}".format(champ.title(),n.title()))
+        else:
+            print("{}: {}'s splash {}".format(member,champ.title(),n.title()))
+            await bot.send_file(ctx.message.channel,path)
 """
 @bot.command(pass_context=True,description="Get champion splash image by name")
 async def splash(ctx,champ: str,n: str="vanilla"):
@@ -207,20 +215,19 @@ def get_image_path_alias(champ,alias):
     for f in listdir(champ_dir):
         champ_dir = join(champ_dir,f)
     champ_dir = join(champ_dir,"deploy/assets/images/champions")
-    file = champ.title()
-    file+="_Splash_"+str(skins[c_format(champ)][alias])+".jpg"
-    return champ_dir+file
+    file = c_format(champ)
+    file+="_Splash_"+str(skins[c_format(champ)][alias.lower()])+".jpg"
+    return join(champ_dir,file)
 
 def get_image_path(champ, t, n):
     champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
     for f in listdir(champ_dir):
         champ_dir = join(champ_dir,f)
     champ_dir = join(champ_dir,"deploy/assets/images/champions")
-    file = champ.title()
+    file = c_format(champ)
     if t=="icon":
         file+="_Square_0.png"
     elif t=="splash": file+="_Splash_"+str(n)+".jpg"
-    print(file)
     for f in listdir(champ_dir):
         if isfile(join(champ_dir,f)) and f==file:
                 return join(champ_dir,f)
