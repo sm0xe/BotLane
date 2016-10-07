@@ -66,7 +66,7 @@ async def refresh(ctx):
     await bot.say("JSON refreshed")
 
 @bot.command(pass_context=True,description="Get champion info")
-async def info(ctx,champ: str,char: str=None):
+async def info(ctx,champ: str,char: str=""):
     if char.lower() == "capitalism": char="$"
     if char.lower() == "communism": char="☭"
     member = str(ctx.message.author)[:-5]
@@ -126,7 +126,10 @@ async def info(ctx,champ: str,char: str=None):
     await bot.say(m)
 
 @bot.command(pass_context=True,description="Get champion stats")
-async def stats(ctx,champ: str):
+async def stats(ctx,champ: str,filters: str=""):
+    filters = filters.split(",")
+    filters = list(map(str.lower,filters))
+    filters = [ x.replace("health","hp") for x in filters]
     member = str(ctx.message.author)[:-5]
     if champ.title() not in data['data']:
         await bot.say("Champion \""+champ.title()+"\" not found")
@@ -138,15 +141,25 @@ async def stats(ctx,champ: str):
     champ_stats = data['data'][champ.title()]['stats']
     m="```"+champ_name+"\n"
     m+=format("","-<"+str(len(champ_name)))+"\n"
-    m+="Health: "+str(champ_stats['hp'])+" (+"+str(champ_stats['hpperlevel'])+")\n"
-    m+="Health Regen: "+str(champ_stats['hpregen'])+" (+"+str(champ_stats['hpregenperlevel'])+")\n"
-    m+="Mana: "+str(champ_stats['mp'])+" (+"+str(champ_stats['mpregenperlevel'])+")\n"
-    m+="Mana Regen: "+str(champ_stats['mpregen'])+" (+"+str(champ_stats['mpregenperlevel'])+")\n"
-    m+="Magic Resist.: "+str(champ_stats['spellblock'])+" (+"+str(champ_stats['spellblockperlevel'])+")\n"
-    m+="Ranged: "+str(champ_stats['attackrange'])+"\n"
-    m+="Attack Damage: "+str(champ_stats['attackdamage'])+" (+"+str(champ_stats['attackdamageperlevel'])+")\n"
-    m+="Armor: "+str(champ_stats['armor'])+" (+"+str(champ_stats['armorperlevel'])+")\n"
-    m+="Move. Speed: "+str(champ_stats['movespeed'])+"```"
+    if filters[0]=='' or "hp" in filters:
+        m+="Health: "+str(champ_stats['hp'])+" (+"+str(champ_stats['hpperlevel'])+")\n"
+    if filters[0]=='' or "hpregen" in filters:
+        m+="Health Regen: "+str(champ_stats['hpregen'])+" (+"+str(champ_stats['hpregenperlevel'])+")\n"
+    if filters[0]=='' or "mana" in filters:
+        m+="Mana: "+str(champ_stats['mp'])+" (+"+str(champ_stats['mpregenperlevel'])+")\n"
+    if filters[0]=='' or "manaregen" in filters:
+        m+="Mana Regen: "+str(champ_stats['mpregen'])+" (+"+str(champ_stats['mpregenperlevel'])+")\n"
+    if filters[0]=='' or "resist" in filters:
+        m+="Magic Resist.: "+str(champ_stats['spellblock'])+" (+"+str(champ_stats['spellblockperlevel'])+")\n"
+    if filters[0]=='' or "ranged" in filters:
+        m+="Ranged: "+str(champ_stats['attackrange'])+"\n"
+    if filters[0]=='' or "damage" in filters:
+        m+="Attack Damage: "+str(champ_stats['attackdamage'])+" (+"+str(champ_stats['attackdamageperlevel'])+")\n"
+    if filters[0]=='' or "armor" in filters:
+        m+="Armor: "+str(champ_stats['armor'])+" (+"+str(champ_stats['armorperlevel'])+")\n"
+    if filters[0]=='' or "speed" in filters:
+        m+="Move. Speed: "+str(champ_stats['movespeed'])
+    m+="```"
     print("{}: {}'s stats".format(member,champ.title()))
     await bot.say(m)
 
