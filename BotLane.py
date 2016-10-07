@@ -264,7 +264,10 @@ def get_image_path_alias(champ,alias):
     champ_dir = join(champ_dir,"deploy/assets/images/champions")
     file = c_format(champ)
     file+="_Splash_"+str(skins[c_format(champ)][alias.lower()])+".jpg"
-    return join(champ_dir,file)
+    for f in listdir(champ_dir):
+        if isfile(join(champ_dir,f)) and f.lower()==file.lower():
+                return join(champ_dir,f)
+    return None
 
 def get_image_path(champ, t, n):
     champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
@@ -276,7 +279,7 @@ def get_image_path(champ, t, n):
         file+="_Square_0.png"
     elif t=="splash": file+="_Splash_"+str(n)+".jpg"
     for f in listdir(champ_dir):
-        if isfile(join(champ_dir,f)) and f==file:
+        if isfile(join(champ_dir,f)) and f.lower()==file.lower():
                 return join(champ_dir,f)
     return None
 if __name__ == "__main__":

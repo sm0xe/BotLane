@@ -88,6 +88,7 @@
     "Ivern": {
     },
     "Janna": {
+	"starguardian":7
     },
     "JarvanIV": {
     },
@@ -98,6 +99,7 @@
     "Jhin": {
     },
     "Jinx": {
+	"starguardian":4
     },
     "Kalista": {
     },
@@ -135,9 +137,11 @@
     "Lulu": {
 	"vanilla":0,
 	"bittersweet":1,
-	"poolparty":5
+	"poolparty":5,
+	"starguardian":6
     },
     "Lux": {
+	"starguardian":6
     },
     "Malphite": {
     },
@@ -174,6 +178,7 @@
     "Pantheon": {
     },
     "Poppy": {
+	"starguardian":7
     },
     "Quinn": {
     },
