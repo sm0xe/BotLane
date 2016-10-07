@@ -13,6 +13,10 @@
 	    "difficulty":10
 	}
     },
+    "Birk":{
+	"name":"Birk",
+	"title":"the Hauer"
+    },
     "Karl": {
     	"name":"Karl",
 	"title":"the Codemancer",
