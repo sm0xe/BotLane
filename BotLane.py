@@ -14,6 +14,10 @@ logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='BotLane.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
+aliases={
+        "hotvixen":"Ahri",
+        "satan":"Teemo"
+        }
 data=skins=""
 def load_json():
     global data,skins
@@ -58,9 +62,9 @@ async def on_message(message):
     await bot.process_commands(message)
 @bot.command(pass_context=True,description="Refresh JSON")
 async def refresh(ctx):
-    if str(ctx.message.author)[:-5] == "sm0xe":
-        load_json()
-        await bot.say("JSON refreshed")
+    load_json()
+    await bot.say("JSON refreshed")
+
 @bot.command(pass_context=True,description="Get champion info")
 async def info(ctx,champ: str,char: str=None):
     if char.lower() == "capitalism": char="$"
@@ -190,6 +194,8 @@ async def role(ctx,champ: str):
     print("{}: {}'s role".format(member,champ.title()))
     await bot.say(m)
 def c_format(champ):
+    if champ.lower() in aliases:
+        return aliases[champ]
     return champ.title().replace(" ","").replace("'","")
 """
 def get_image_url(champ):
