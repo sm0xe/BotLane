@@ -1,7 +1,31 @@
 {
-    "mage":[
-    ],
-    "assassin":[],
-    "support":[],
-    "tank":[]
+    "top":{
+	"Poppy":4,
+	"Gnar":10,
+	"Trundle":6,
+	"Kennen":8
+    },
+    "mid":{
+	"Ryze":7,
+	"Viktor":5,
+	"Cassiopeia":8,
+	"Malzahar":6,
+	"Anivia":5
+    },
+    "jungle":{
+	"Elise":7,
+	"Skarner":3,
+	"Graves":4,
+	"Lee Sin":9,
+	"Olaf":4,
+	"Nidalee":8
+    },
+    "adc":{
+	"":5
+    },
+    "supp":{
+	"Lulu":5,
+	"Soraka":3,
+	"Kha'Zix":10
+    }
 }

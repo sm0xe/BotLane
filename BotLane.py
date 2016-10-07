@@ -18,10 +18,10 @@ aliases={
         "hotvixen":"Ahri",
         "satan":"Teemo"
         }
-data=skins=""
+data=skins=viables=""
 def load_json():
-    global data,skins
-    data=skins=""
+    global data,skins,viables
+    data=skins=viables=""
     with open('champs.json') as f:
         for line in f:
             data+=line
@@ -30,6 +30,10 @@ def load_json():
         for line in f:
             skins+=line
     skins = json.loads(skins)
+    with open('viable.json') as f:
+        for line in f:
+            viables+=line
+    viables = json.loads(viables)
 @bot.event
 async def on_ready():
     print("Logged in as")
@@ -65,6 +69,34 @@ async def refresh(ctx):
     load_json()
     await bot.say("JSON refreshed")
 
+def role_alias(role):
+    if role.lower() in {"jungle","jng","jgl"}: return "jungle"
+    elif role.lower() in {"mid","middle"}: return "mid"
+    elif role.lower() in {"supp","support"}: return "supp"
+    elif role.lower() in {"top","top lane"}: return "top"
+    elif role.lower() in {"adc","carry"}: return "adc"
+    else: return role
+@bot.command(pass_context=True,description="Get champion info")
+async def viable(ctx,role: str):
+    role = role_alias(role)
+    if role in viables:
+        m = ""
+        for c in viables[role]:
+            m+=c+" - "+str(viables[role][c])+"/10\n"
+        await bot.say(m)
+        return
+    elif c_format(role) in skins:
+        roles = []
+        for r in viables:
+            for c in viables[r]:
+                if c.lower()==role.lower():
+                    roles.append(r.title())
+        if len(roles)==0:
+            await bot.say("No viable positions for {}".format(role))
+        else: await bot.say("\n".join(r for r in roles))
+        return
+    else:
+        await bot.say("No viable champions for {}".format(role))
 @bot.command(pass_context=True,description="Get champion info")
 async def info(ctx,champ: str,char: str=""):
     if char.lower() == "capitalism": char="$"
