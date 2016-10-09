@@ -16,7 +16,9 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 aliases={
         "hotvixen":"Ahri",
-        "satan":"Teemo"
+        "satan":"Teemo",
+        "karina":"Katarina",
+        "fairymidget":"Lulu"
         }
 data=skins=viables=""
 def load_json():
@@ -258,10 +260,13 @@ def download_champ(champ):
     return join(champ_dir,champ+".png")
 """
 def get_image_path_alias(champ,alias):
-    champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
+    #champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
+    champ_dir="champions/"
+    """
     for f in listdir(champ_dir):
         champ_dir = join(champ_dir,f)
     champ_dir = join(champ_dir,"deploy/assets/images/champions")
+    """
     file = c_format(champ)
     file+="_Splash_"+str(skins[c_format(champ)][alias.lower()])+".jpg"
     for f in listdir(champ_dir):
@@ -270,10 +275,13 @@ def get_image_path_alias(champ,alias):
     return None
 
 def get_image_path(champ, t, n):
-    champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
+    #champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
+    champ_dir="champions/"
+    """
     for f in listdir(champ_dir):
         champ_dir = join(champ_dir,f)
     champ_dir = join(champ_dir,"deploy/assets/images/champions")
+    """
     file = c_format(champ)
     if t=="icon":
         file+="_Square_0.png"
