@@ -10,7 +10,8 @@
 	"Viktor":5,
 	"Cassiopeia":8,
 	"Malzahar":6,
-	"Anivia":5
+	"Anivia":5,
+	"Ahri":6
     },
     "jungle":{
 	"Elise":7,
@@ -21,7 +22,12 @@
 	"Nidalee":8
     },
     "adc":{
-	"":5
+	"Ezreal":8,
+	"Caitlyn":5,
+	"Jinx":6,
+	"Twitch":6,
+	"Jhin":8,
+	"Ashe":5
     },
     "supp":{
 	"Lulu":5,
