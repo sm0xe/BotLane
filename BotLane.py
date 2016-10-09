@@ -1,5 +1,6 @@
 #!/bin/env python
 import math
+import urllib.request
 import json
 import discord
 import logging
@@ -66,6 +67,11 @@ async def on_message(message):
         await bot.send_message(message.channel,avail[0])
         """
     await bot.process_commands(message)
+@bot.command(pass_context=True,description="Fetch IP of bot")
+async def ip(ctx):
+    if str(ctx.message.author)[:-5] == "sm0xe":
+        ext_ip = urllib.request.urlopen("http://icanhazip.com")
+        await bot.say(ext_ip.read().decode("utf-8"))
 @bot.command(pass_context=True,description="Refresh JSON")
 async def refresh(ctx):
     load_json()
