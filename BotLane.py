@@ -7,6 +7,8 @@ import logging
 from discord.ext import commands
 from os import listdir
 from os.path import isfile,join
+import sys
+import io
 
 global bot
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("/"),description="@BotLane help")
@@ -25,7 +27,7 @@ data=skins=viables=""
 def load_json():
     global data,skins,viables
     data=skins=viables=""
-    with open('champs.json') as f:
+    with io.open('champs.json',"r",encoding="utf-8") as f:
         for line in f:
             data+=line
     data = json.loads(data)
@@ -297,6 +299,6 @@ def get_image_path(champ, t, n):
                 return join(champ_dir,f)
     return None
 if __name__ == "__main__":
-    load_json()
+    #load_json()
     bot.run('MjMzMzI5NzI3ODM2NzgyNTkz.Ctb5PA.XROr0CH-e31vX1PxXKS8gNOphXM')
     bot.close()
