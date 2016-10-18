@@ -10,7 +10,7 @@ from os.path import isfile,join
 import sys
 import io
 
-global bot
+from botconfig import token
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("/"),description="@BotLane help")
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -298,5 +298,5 @@ def get_image_path(champ, t, n):
     return None
 if __name__ == "__main__":
     load_json()
-    bot.run('MjMzMzI5NzI3ODM2NzgyNTkz.Ctb5PA.XROr0CH-e31vX1PxXKS8gNOphXM')
+    bot.run(token)
     bot.close()
