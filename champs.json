@@ -5,7 +5,7 @@
   "data": {
     "Amund": {
     	"name":"Amund",
-	"title":"the Saltiness",
+	"title":"the Salty Scourge",
 	"info":{
 	    "attack":3,
 	    "defense":3,
@@ -232,7 +232,7 @@
       "key": "32",
       "name": "Amumu",
       "title": "the Sad Mummy",
-      "blurb": "''Solitude can be lonelier than death.''<br><br>A lonely and melancholy soul from ancient Shurima, Amumu roams the world in search of a friend. Cursed by an ancient spell, he is doomed to remain alone forever, as his touch is death and his affection ...",
+      "blurb": "Solitude can be lonelier than death. A lonely and melancholy soul from ancient Shurima, Amumu roams the world in search of a friend. Cursed by an ancient spell, he is doomed to remain alone forever, as his touch is death and his affection ...",
       "info": {
         "attack": 2,
         "defense": 6,

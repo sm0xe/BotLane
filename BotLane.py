@@ -20,29 +20,27 @@ logger.addHandler(handler)
 aliases={
         "hotvixen":"Ahri",
         "satan":"Teemo",
-        "karina":"Katarina",
-        "fairymidget":"Lulu"
+        "karina":"Katarina"
         }
 data=skins=viables=""
 def load_json():
     global data,skins,viables
     data=skins=viables=""
-    with io.open('champs.json',"r",encoding="utf-8") as f:
+    with io.open('/home/gussefant/Code/BotLane/champs.json',"r",encoding="utf-8") as f:
         for line in f:
             data+=line
     data = json.loads(data)
-    with open('skins.json') as f:
+    with open('/home/gussefant/Code/BotLane/skins.json') as f:
         for line in f:
             skins+=line
     skins = json.loads(skins)
-    with open('viable.json') as f:
+    with open('/home/gussefant/Code/BotLane/viable.json') as f:
         for line in f:
             viables+=line
     viables = json.loads(viables)
 @bot.event
 async def on_ready():
-    print("Logged in as")
-    print(bot.user.name)
+    print("Logged in as",bot.user.name)
     print("-----")
     await bot.change_presence(game=discord.Game(name='@BotLane help',url='',type=2))
 @bot.event
@@ -269,7 +267,7 @@ def download_champ(champ):
 """
 def get_image_path_alias(champ,alias):
     #champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
-    champ_dir="champions/"
+    champ_dir="/home/gussefant/Code/BotLane/champions/"
     """
     for f in listdir(champ_dir):
         champ_dir = join(champ_dir,f)
@@ -284,7 +282,7 @@ def get_image_path_alias(champ,alias):
 
 def get_image_path(champ, t, n):
     #champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
-    champ_dir="champions/"
+    champ_dir="/home/gussefant/Code/BotLane/champions/"
     """
     for f in listdir(champ_dir):
         champ_dir = join(champ_dir,f)
@@ -299,6 +297,6 @@ def get_image_path(champ, t, n):
                 return join(champ_dir,f)
     return None
 if __name__ == "__main__":
-    #load_json()
+    load_json()
     bot.run('MjMzMzI5NzI3ODM2NzgyNTkz.Ctb5PA.XROr0CH-e31vX1PxXKS8gNOphXM')
     bot.close()
