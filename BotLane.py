@@ -6,11 +6,13 @@ import discord
 import logging
 from discord.ext import commands
 from os import listdir
-from os.path import isfile,join
+from os.path import isfile,join,dirname,realpath
 import sys
 import io
 
 from botconfig import token
+bot_dir = dirname(realpath(__file__))
+champ_dir = join(bot_dir,"champions")
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("/"),description="@BotLane help")
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -26,15 +28,15 @@ data=skins=viables=""
 def load_json():
     global data,skins,viables
     data=skins=viables=""
-    with io.open('/home/gussefant/Code/BotLane/champs.json',"r",encoding="utf-8") as f:
+    with io.open(join(bot_dir,'champs.json'),"r",encoding="utf-8") as f:
         for line in f:
             data+=line
     data = json.loads(data)
-    with open('/home/gussefant/Code/BotLane/skins.json') as f:
+    with open(join(bot_dir,'skins.json')) as f:
         for line in f:
             skins+=line
     skins = json.loads(skins)
-    with open('/home/gussefant/Code/BotLane/viable.json') as f:
+    with open(join(bot_dir,'viable.json')) as f:
         for line in f:
             viables+=line
     viables = json.loads(viables)
@@ -266,8 +268,6 @@ def download_champ(champ):
     return join(champ_dir,champ+".png")
 """
 def get_image_path_alias(champ,alias):
-    #champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
-    champ_dir="/home/gussefant/Code/BotLane/champions/"
     """
     for f in listdir(champ_dir):
         champ_dir = join(champ_dir,f)
@@ -281,8 +281,6 @@ def get_image_path_alias(champ,alias):
     return None
 
 def get_image_path(champ, t, n):
-    #champ_dir="/home/gussefant/.wine32/drive_c/Riot Games/League of Legends/RADS/projects/lol_air_client/releases"
-    champ_dir="/home/gussefant/Code/BotLane/champions/"
     """
     for f in listdir(champ_dir):
         champ_dir = join(champ_dir,f)
