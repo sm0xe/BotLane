@@ -44,7 +44,7 @@ def load_json():
 async def on_ready():
     print("Logged in as",bot.user.name)
     print("-----")
-    await bot.change_presence(game=discord.Game(name='@BotLane help',url='',type=2))
+    await bot.change_presence(game=discord.Game(name='@BotLane help',url='https://github.com/sm0xe/BotLane',type=2))
 @bot.event
 async def on_message(message):
     """
